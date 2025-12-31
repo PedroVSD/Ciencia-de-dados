@@ -1,5 +1,4 @@
 # Ciencia-de-dados
-Contém alguns projetos que desenvolvi voltado para a área de ciência de dados. Desde mineração, limpeza de dados e aplicação de técnicas de machine learning.
-This contains several projects I developed focused on the field of data science, ranging from data mining and cleaning to the application of machine learning techniques.
+Este repositório reúne diversos projetos que desenvolvi na área de Ciência de Dados. Os trabalhos abrangem desde etapas de mineração e limpeza de dados até a aplicação de técnicas de aprendizado de máquina, com foco em análise, modelagem e extração de conhecimento a partir de dados.
 
-Ainda vou ajustar esse repositório com os projetos. Estou muito atarefado, principalmente com a faculdade. Pretendendo organizar agira em dezembro, meio do mês. Se precisar de algo entre em contato. Pedrovsd00@gmail.com ou pedrovsd@proton.me
+This repository contains several projects I developed in the field of Data Science. The projects cover data mining and data cleaning processes, as well as the application of machine learning techniques, with an emphasis on data analysis, modeling, and knowledge extraction.
