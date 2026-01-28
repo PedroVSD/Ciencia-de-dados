@@ -1,0 +1,115 @@
+========================================================================
+PROJETO: SISTEMA DE RECOMENDAÇÃO DE FILMES (CONTENT-BASED FILTERING)
+========================================================================
+
+LINGUAGEM: Python 3.12+
+
+--- 1. DESCRIÇÃO DO PROJETO ---
+Este projeto implementa um motor de recomendação de filmes baseado em conteúdo
+(Content-Based Filtering) utilizando Machine Learning. O sistema analisa o
+gosto do usuário com base em filmes avaliados e sugere novos títulos que
+sejam matematicamente similares em termos de narrativa, estilo e qualidade.
+
+O diferencial do projeto é o uso de Feature Engineering avançada ("Soup")
+e uma lógica matemática personalizada para tratar votos negativos.
+
+--- 2. DATASET UTILIZADO ---
+- Fonte: TMDB + IMDb Merged Dataset (Kaggle)
+- Principais Colunas:
+  * averageRating (Nota IMDb - Qualidade)
+  * popularity (TMDB - Fama)
+  * soup (Junção de Keywords + Elenco + Diretor + Gêneros)
+- Filtro de Qualidade: Apenas filmes com mais de 500 votos no IMDb.
+
+--- 3. TECNOLOGIAS E BIBLIOTECAS ---
+- Pandas: Manipulação e limpeza de dados.
+- Scikit-Learn:
+  * NearestNeighbors (Algoritmo KNN com métrica de Cosseno).
+  * CountVectorizer (Processamento de Linguagem Natural para a "Sopa").
+  * StandardScaler (Normalização Z-Score de dados numéricos).
+- Numpy: Operações vetoriais matemáticas.
+
+--- 4. ARQUITETURA DA SOLUÇÃO ---
+
+A. ENGENHARIA DE FEATURES (A "SOPA")
+   Em vez de olhar apenas para o Gênero, o sistema cria uma "tag cloud" única
+   para cada filme contendo:
+   - Palavras-chave da trama (ex: "time travel", "heist")
+   - Nome do Diretor (ex: "christophernolan")
+   - Top 3 Atores Principais (ex: "leonardodicaprio")
+   - Gêneros (ex: "scifi")
+   
+   Isso é vetorizado em uma matriz esparsa de 3.000 dimensões.
+
+B. LÓGICA DO "VOTO NEGATIVO REAL"
+   O sistema não apenas busca o que o usuário gosta, mas se afasta do que ele odeia.
+   Cálculo do vetor de preferência:
+   
+   Peso = (Nota do Usuário - 5.0)
+   
+   - Nota 10: Peso +5.0 (Vetor do filme é SOMADO ao perfil).
+   - Nota 5:  Peso  0.0 (Neutro).
+   - Nota 1:  Peso -4.0 (Vetor do filme é SUBTRAÍDO do perfil).
+
+C. BALANCEAMENTO DE POPULARIDADE
+   Para evitar o viés de popularidade (recomendar apenas Blockbusters), 
+   os dados numéricos (Nota e Popularidade) têm seu peso reduzido em relação 
+   ao conteúdo semântico (Sopa).
+
+--- 5. COMO EXECUTAR ---
+
+1. Instale as dependências:
+   pip install pandas scikit-learn numpy
+   Também é necessário a importação do dataset:
+   https://www.kaggle.com/datasets/ggtejas/tmdb-imdb-merged-movies-dataset/suggestions
+
+2. Certifique-se de que o arquivo 'TMDB_IMDB_Merged_Movies_Dataset.csv'
+   está na mesma pasta do script.
+
+3. Execute o script Python. O treinamento do modelo (Fit) ocorre na inicialização.
+
+4. Insira a lista de filmes assistidos e suas notas no dicionário de input.
+
+--- 6. EXEMPLO DE USO ---
+
+Input do Usuário:
+- "Inception": 10 (Ama Sci-Fi complexo e Nolan)
+- "Titanic": 8 (Gosta de DiCaprio e Drama)
+- "The Hangover": 2 (Odeia Comédia "besteirol")
+
+Saída Esperada:
+O algoritmo buscará filmes que contenham as tags de Inception/Titanic
+(Drama, Sci-Fi, Nolan, DiCaprio) e se afastará matematicamente 
+de vetores contendo tags de Comédia.
+
+========================================================================
+VARIAÇÃO DO PROJETO: MODELO BASELINE (ONE-HOT ENCODING)
+========================================================================
+
+--- 1. OBJETIVO ---
+Antes de implementar o modelo avançado ("Soup"), foi desenvolvida uma versão
+Baseline (Linha de Base) para validar a lógica matemática de recomendação e
+o tratamento de votos negativos. Esta versão foca exclusivamente em macro-
+características (Gêneros) e métricas de qualidade.
+
+--- 2. METODOLOGIA ---
+Diferente da versão final que processa texto natural, esta versão utiliza:
+
+A. ONE-HOT ENCODING (Para Gêneros)
+   - Técnica: Conversão da string de gêneros (ex: "Action, Comedy") em
+     colunas binárias individuais (0 ou 1).
+   - Dimensões: O vetor resultante possui apenas o número de gêneros
+     existentes no dataset (aprox. 19-20 dimensões), tornando o cálculo
+     extremamente leve e rápido.
+
+B. DADOS NUMÉRICOS
+   - Normalização Z-Score (StandardScaler) aplicada a:
+     * averageRating (Nota IMDb)
+     * popularity (TMDB)
+
+--- 3. DIFERENÇAS PARA A VERSÃO FINAL ---
+- IGNORA: Atores, Diretores e Palavras-chave da trama.
+- VANTAGEM: Baixíssimo consumo de memória RAM e processamento instantâneo.
+- DESVANTAGEM: Menor precisão em recomendações de nicho (ex: não consegue
+  distinguir um filme de ação do Nolan de um filme de ação genérico).
+========================================================================
