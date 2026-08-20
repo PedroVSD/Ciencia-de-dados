@@ -7,6 +7,6 @@ This repository contains several projects I developed in the field of Data Scien
 - [Gradiente descendente](./Gradiente%20descendente)
 - [IBGE](./IBGE)
 - [MiniCursoML](./MiniCursoML)
-- [Redes neurais](./Redes%20neurais)
+- [Redes neurais]([./Redes%20neurais](https://github.com/PedroVSD/RedesNeurais))
 - [Regras de associação](./Regras%20de%20associa%C3%A7%C3%A3o)
 - [Sistema de recomendação utilizando KNN](./Sistema%20de%20recomenda%C3%A7%C3%A3o)
