@@ -4,6 +4,7 @@ Este repositório reúne diversos projetos que desenvolvi na área de Ciência d
 This repository contains several projects I developed in the field of Data Science. The projects cover data mining and data cleaning processes, as well as the application of machine learning techniques, with an emphasis on data analysis, modeling, and knowledge extraction.
 
 - [Clustering](./Clustering)
+- [Clustering Embeddings](./Clusters_embeddings)
 - [Gradiente descendente](./Gradiente%20descendente)
 - [IBGE](./IBGE)
 - [MiniCursoML](./MiniCursoML)
